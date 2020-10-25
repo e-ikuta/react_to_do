@@ -7,14 +7,16 @@ function Todo(props) {
   );
 }
 
-function TodoList(props) {
-  const todos = props.todos.map((todo) => {
-    return <Todo todo={todo} />;
-  });
+class TodoList extends React.Component {
+  render () {
+    const todos = this.props.todos.map((todo) => {
+      return <Todo todo={todo} />;
+    });
 
-  return (
-    <ul>{todos}</ul>
-  );
+    return (
+      <ul>{todos}</ul>
+    );
+  }
 }
 
 // ========================================
