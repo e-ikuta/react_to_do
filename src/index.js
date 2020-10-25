@@ -16,7 +16,7 @@ function AddTodo(props) {
 class TodoList extends React.Component {
   render () {
     const todos = this.props.todos.map((todo) => {
-      return <Todo todo={todo} />;
+      return <Todo key={todo.id} todo={todo.name} />;
     });
 
     return (
@@ -34,7 +34,9 @@ class App extends React.Component {
   }
 
   handleClick = () => {
-    const todos = this.state.todos.concat(['Todo 4']);
+    const todos = this.state.todos.concat([
+      { id: 4, name: 'Todo 4' },
+    ]);
     this.setState({todos: todos});
   }
 
@@ -51,9 +53,9 @@ class App extends React.Component {
 // ========================================
 
 const TODOS = [
-  'Todo 1',
-  'Todo 2',
-  'Todo 3',
+  {id: 1, name: 'Todo 1'},
+  {id: 2, name: 'Todo 2'},
+  {id: 3, name: 'Todo 3'},
 ]
 
 ReactDOM.render(
