@@ -9,18 +9,11 @@ function Todo(props) {
 
 function AddTodo(props) {
   return (
-    <button>Add todo</button>
+    <button onClick={props.onClick}>Add todo</button>
   );
 }
 
 class TodoList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todos: props.todos,
-    };
-  }
-
   render () {
     const todos = this.props.todos.map((todo) => {
       return <Todo todo={todo} />;
@@ -32,13 +25,27 @@ class TodoList extends React.Component {
   }
 }
 
-function App(props) {
-  return (
-    <div>
-      <AddTodo />
-      <TodoList todos={props.todos}/>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: props.todos,
+    };
+  }
+
+  handleClick = () => {
+    const todos = this.state.todos.concat(['Todo 4']);
+    this.setState({todos: todos});
+  }
+
+  render () {
+    return (
+      <div>
+        <AddTodo onClick={this.handleClick}/>
+        <TodoList todos={this.state.todos}/>
+      </div>
+    );
+  }
 }
 
 // ========================================
