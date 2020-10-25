@@ -19,16 +19,12 @@ function InputTodo(props) {
   );
 }
 
-class TodoList extends React.Component {
-  render () {
-    const todos = this.props.todos.map((todo) => {
-      return <Todo key={todo.id} todo={todo.name} />;
-    });
+function TodoList(props) {
+  const todos = props.todos.map((todo) => {
+    return <Todo key={todo.id} todo={todo.name} />;
+  });
 
-    return (
-      <ul>{todos}</ul>
-    );
-  }
+  return <ul>{todos}</ul>;
 }
 
 class App extends React.Component {
