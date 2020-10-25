@@ -3,7 +3,16 @@ import ReactDOM from 'react-dom';
 
 function Todo(props) {
   return (
-    <li>{props.todo}</li>
+    <li>
+      {props.todo.name}
+      <DeleteTodo onClick={() => props.onClick(props.todo.id)} />
+    </li>
+  );
+}
+
+function DeleteTodo(props) {
+  return (
+    <button onClick={props.onClick}>Delete</button>
   );
 }
 
@@ -21,7 +30,7 @@ function InputTodo(props) {
 
 function TodoList(props) {
   const todos = props.todos.map((todo) => {
-    return <Todo key={todo.id} todo={todo.name} />;
+    return <Todo key={todo.id} todo={todo} onClick={props.onClick} />;
   });
 
   return <ul>{todos}</ul>;
@@ -49,6 +58,11 @@ class App extends React.Component {
     });
   }
 
+  handleDelete = (id) => {
+    const todos = this.state.todos.filter(todo => todo.id !== id);
+    this.setState({ todos: todos });
+  }
+
   handleChange = (event) => {
     this.setState({newTodo: event.target.value});
   }
@@ -58,7 +72,7 @@ class App extends React.Component {
       <div>
         <InputTodo value={this.state.newTodo} onChange={this.handleChange}/>
         <AddTodo onClick={this.handleClick}/>
-        <TodoList todos={this.state.todos}/>
+        <TodoList todos={this.state.todos} onClick={this.handleDelete}/>
       </div>
     );
   }
