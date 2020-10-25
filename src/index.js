@@ -42,7 +42,10 @@ class App extends React.Component {
 
   handleClick = () => {
     const todos = this.state.todos.concat([
-      { id: 4, name: 'Todo 4' },
+      {
+        id: this.state.todos.length + 1,
+        name: this.state.newTodo,
+      }
     ]);
     this.setState({todos: todos});
   }
