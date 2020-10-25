@@ -80,11 +80,7 @@ class App extends React.Component {
 
 // ========================================
 
-const TODOS = [
-  {id: 1, name: 'Todo 1'},
-  {id: 2, name: 'Todo 2'},
-  {id: 3, name: 'Todo 3'},
-]
+const TODOS = []
 
 ReactDOM.render(
   <App todos={TODOS} />,
