@@ -42,19 +42,21 @@ class App extends React.Component {
     this.state = {
       todos: props.todos,
       newTodo: '',
+      nextId: 1,
     };
   }
 
   handleAdd = () => {
     const todos = this.state.todos.concat([
       {
-        id: this.state.todos.length + 1,
+        id: this.state.nextId,
         name: this.state.newTodo,
       }
     ]);
     this.setState({
       todos: todos,
       newTodo: '',
+      nextId: this.state.nextId + 1,
     });
   }
 
