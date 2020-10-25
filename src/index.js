@@ -45,7 +45,7 @@ class App extends React.Component {
     };
   }
 
-  handleClick = () => {
+  handleAdd = () => {
     const todos = this.state.todos.concat([
       {
         id: this.state.todos.length + 1,
@@ -71,7 +71,7 @@ class App extends React.Component {
     return (
       <div>
         <InputTodo value={this.state.newTodo} onChange={this.handleChange}/>
-        <AddTodo onClick={this.handleClick}/>
+        <AddTodo onClick={this.handleAdd}/>
         <TodoList todos={this.state.todos} onClick={this.handleDelete}/>
       </div>
     );
