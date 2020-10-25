@@ -7,6 +7,12 @@ function Todo(props) {
   );
 }
 
+function AddTodo(props) {
+  return (
+    <button>Add todo</button>
+  );
+}
+
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +32,15 @@ class TodoList extends React.Component {
   }
 }
 
+function App(props) {
+  return (
+    <div>
+      <AddTodo />
+      <TodoList todos={props.todos}/>
+    </div>
+  );
+}
+
 // ========================================
 
 const TODOS = [
@@ -35,6 +50,6 @@ const TODOS = [
 ]
 
 ReactDOM.render(
-  <TodoList todos={TODOS}/>,
+  <App todos={TODOS} />,
   document.getElementById('root')
 );
