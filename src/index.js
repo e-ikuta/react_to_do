@@ -1,9 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const element = <div>Hello World</div>
+function TodoList(props) {
+  return (
+    <ul>
+      <li>Todo 1</li>
+      <li>Todo 2</li>
+      <li>Todo 3</li>
+    </ul>
+  );
+}
+
+// ========================================
 
 ReactDOM.render(
-  element,
+  <TodoList />,
   document.getElementById('root')
 );
