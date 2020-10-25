@@ -40,9 +40,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: props.todos,
+      todos: [],
       newTodo: '',
       nextId: 1,
+      dones: props.dones,
     };
   }
 
@@ -82,9 +83,7 @@ class App extends React.Component {
 
 // ========================================
 
-const TODOS = []
-
 ReactDOM.render(
-  <App todos={TODOS} />,
+  <App />,
   document.getElementById('root')
 );
