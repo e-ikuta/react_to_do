@@ -8,16 +8,24 @@ function Todo(props) {
 }
 
 function TodoList(props) {
+  const todos = props.todos.map((todo) => {
+    return <Todo todo={todo} />;
+  });
+
   return (
-    <ul>
-      <Todo todo="Todo 1" />
-    </ul>
+    <ul>{todos}</ul>
   );
 }
 
 // ========================================
 
+const TODOS = [
+  'Todo 1',
+  'Todo 2',
+  'Todo 3',
+]
+
 ReactDOM.render(
-  <TodoList />,
+  <TodoList todos={TODOS}/>,
   document.getElementById('root')
 );
