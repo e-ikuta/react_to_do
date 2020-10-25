@@ -8,6 +8,13 @@ function Todo(props) {
 }
 
 class TodoList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: props.todos,
+    };
+  }
+
   render () {
     const todos = this.props.todos.map((todo) => {
       return <Todo todo={todo} />;
