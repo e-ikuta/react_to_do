@@ -13,6 +13,12 @@ function AddTodo(props) {
   );
 }
 
+function InputTodo(props) {
+  return (
+    <input type="text" value={props.value} onChange={props.onChange}></input>
+  );
+}
+
 class TodoList extends React.Component {
   render () {
     const todos = this.props.todos.map((todo) => {
@@ -30,6 +36,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       todos: props.todos,
+      newTodo: '',
     };
   }
 
@@ -40,9 +47,14 @@ class App extends React.Component {
     this.setState({todos: todos});
   }
 
+  handleChange = (event) => {
+    this.setState({newTodo: event.target.value});
+  }
+
   render () {
     return (
       <div>
+        <InputTodo value={this.state.newTodo} onChange={this.handleChange}/>
         <AddTodo onClick={this.handleClick}/>
         <TodoList todos={this.state.todos}/>
       </div>
