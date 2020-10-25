@@ -43,7 +43,10 @@ class App extends React.Component {
         name: this.state.newTodo,
       }
     ]);
-    this.setState({todos: todos});
+    this.setState({
+      todos: todos,
+      newTodo: '',
+    });
   }
 
   handleChange = (event) => {
