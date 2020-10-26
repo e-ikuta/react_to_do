@@ -15,6 +15,7 @@ function Done(props) {
   return (
     <li>
       {props.done.name}
+      <UndoDone onClick={() => props.onUndo(props.done.id)} />
     </li>
   );
 }
@@ -28,6 +29,12 @@ function DeleteTodo(props) {
 function DoneTodo(props) {
   return (
     <button onClick={props.onClick}>Done</button>
+  );
+}
+
+function UndoDone(props) {
+  return (
+    <button onClick={props.onClick}>Undo</button>
   );
 }
 
@@ -53,7 +60,7 @@ function TodoList(props) {
 
 function DoneList(props) {
   const dones = props.dones.map((done) => {
-    return <Done key={done.id} done={done} onClick={props.onClick} />;
+    return <Done key={done.id} done={done} onUndo={props.onUndo} />;
   });
 
   return <ul>{dones}</ul>;
@@ -99,6 +106,16 @@ class App extends React.Component {
     });
   }
 
+  handleUndo = (id) => {
+    const todo = this.state.dones.filter(done => done.id === id);
+    const todos = this.state.todos.concat(todo)
+    const dones = this.state.dones.filter(done => done.id !== id);
+    this.setState({
+      todos: todos,
+      dones: dones,
+    });
+  }
+
   handleChange = (event) => {
     this.setState({newTodo: event.target.value});
   }
@@ -111,7 +128,7 @@ class App extends React.Component {
         <h1>Todo</h1>
         <TodoList todos={this.state.todos} onDelete={this.handleDelete} onDone={this.handleDone}/>
         <h1>Done</h1>
-        <DoneList dones={this.state.dones} />
+        <DoneList dones={this.state.dones} onUndo={this.handleUndo} />
       </div>
     );
   }
