@@ -15,12 +15,19 @@ function Done(props) {
   return (
     <li>
       {props.done.name}
+      <DeleteDone onClick={() => props.onDelete(props.done.id)} />
       <UndoDone onClick={() => props.onUndo(props.done.id)} />
     </li>
   );
 }
 
 function DeleteTodo(props) {
+  return (
+    <button onClick={props.onClick}>Delete</button>
+  );
+}
+
+function DeleteDone(props) {
   return (
     <button onClick={props.onClick}>Delete</button>
   );
@@ -60,7 +67,7 @@ function TodoList(props) {
 
 function DoneList(props) {
   const dones = props.dones.map((done) => {
-    return <Done key={done.id} done={done} onUndo={props.onUndo} />;
+    return <Done key={done.id} done={done} onDelete={props.onDelete} onUndo={props.onUndo} />;
   });
 
   return <ul>{dones}</ul>;
@@ -91,9 +98,14 @@ class App extends React.Component {
     });
   }
 
-  handleDelete = (id) => {
+  handleDeleteTodo = (id) => {
     const todos = this.state.todos.filter(todo => todo.id !== id);
     this.setState({ todos: todos });
+  }
+
+  handleDeleteDone = (id) => {
+    const dones = this.state.dones.filter(done => done.id !== id);
+    this.setState({ dones: dones });
   }
 
   handleDone = (id) => {
@@ -126,9 +138,9 @@ class App extends React.Component {
         <InputTodo value={this.state.newTodo} onChange={this.handleChange}/>
         <AddTodo onClick={this.handleAdd}/>
         <h1>Todo</h1>
-        <TodoList todos={this.state.todos} onDelete={this.handleDelete} onDone={this.handleDone}/>
+        <TodoList todos={this.state.todos} onDelete={this.handleDeleteTodo} onDone={this.handleDone}/>
         <h1>Done</h1>
-        <DoneList dones={this.state.dones} onUndo={this.handleUndo} />
+        <DoneList dones={this.state.dones} onDelete={this.handleDeleteDone} onUndo={this.handleUndo} />
       </div>
     );
   }
