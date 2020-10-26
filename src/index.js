@@ -5,8 +5,8 @@ function Todo(props) {
   return (
     <li>
       {props.todo.name}
-      <DeleteTodo onClick={() => props.onDelete(props.todo.id)} />
-      <DoneTodo onClick={() => props.onDone(props.todo.id)} />
+      <button onClick={() => props.onDelete(props.todo.id)}>Delete</button>
+      <button onClick={() => props.onDone(props.todo.id)}>Done</button>
     </li>
   );
 }
@@ -15,39 +15,9 @@ function Done(props) {
   return (
     <li>
       {props.done.name}
-      <DeleteDone onClick={() => props.onDelete(props.done.id)} />
-      <UndoDone onClick={() => props.onUndo(props.done.id)} />
+      <button onClick={() => props.onDelete(props.done.id)}>Delete</button>
+      <button onClick={() => props.onUndo(props.done.id)}>Undo</button>
     </li>
-  );
-}
-
-function DeleteTodo(props) {
-  return (
-    <button onClick={props.onClick}>Delete</button>
-  );
-}
-
-function DeleteDone(props) {
-  return (
-    <button onClick={props.onClick}>Delete</button>
-  );
-}
-
-function DoneTodo(props) {
-  return (
-    <button onClick={props.onClick}>Done</button>
-  );
-}
-
-function UndoDone(props) {
-  return (
-    <button onClick={props.onClick}>Undo</button>
-  );
-}
-
-function AddTodo(props) {
-  return (
-    <button onClick={props.onClick}>Add todo</button>
   );
 }
 
@@ -136,7 +106,7 @@ class App extends React.Component {
     return (
       <div>
         <InputTodo value={this.state.newTodo} onChange={this.handleChange}/>
-        <AddTodo onClick={this.handleAdd}/>
+        <button onClick={this.handleAdd}>Add Todo</button>
         <h1>Todo</h1>
         <TodoList todos={this.state.todos} onDelete={this.handleDeleteTodo} onDone={this.handleDone}/>
         <h1>Done</h1>
