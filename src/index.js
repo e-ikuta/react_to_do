@@ -29,7 +29,14 @@ function InputTodo(props) {
 
 function TodoList(props) {
   const todos = props.todos.map((todo) => {
-    return <Todo key={todo.id} todo={todo} onDelete={props.onDelete} onDone={props.onDone} />;
+    return (
+      <Todo
+        key={todo.id}
+        todo={todo}
+        onDelete={props.onDelete}
+        onDone={props.onDone}
+      />
+    );
   });
 
   return <ul>{todos}</ul>;
@@ -37,7 +44,14 @@ function TodoList(props) {
 
 function DoneList(props) {
   const dones = props.dones.map((done) => {
-    return <Done key={done.id} done={done} onDelete={props.onDelete} onUndo={props.onUndo} />;
+    return (
+      <Done
+        key={done.id}
+        done={done}
+        onDelete={props.onDelete}
+        onUndo={props.onUndo}
+      />
+    );
   });
 
   return <ul>{dones}</ul>;
@@ -59,58 +73,66 @@ class App extends React.Component {
       {
         id: this.state.nextId,
         name: this.state.newTodo,
-      }
+      },
     ]);
     this.setState({
       todos: todos,
       newTodo: '',
       nextId: this.state.nextId + 1,
     });
-  }
+  };
 
   handleDeleteTodo = (id) => {
-    const todos = this.state.todos.filter(todo => todo.id !== id);
+    const todos = this.state.todos.filter((todo) => todo.id !== id);
     this.setState({ todos: todos });
-  }
+  };
 
   handleDeleteDone = (id) => {
-    const dones = this.state.dones.filter(done => done.id !== id);
+    const dones = this.state.dones.filter((done) => done.id !== id);
     this.setState({ dones: dones });
-  }
+  };
 
   handleDone = (id) => {
-    const done = this.state.todos.filter(todo => todo.id === id);
-    const dones = this.state.dones.concat(done)
-    const todos = this.state.todos.filter(todo => todo.id !== id);
+    const done = this.state.todos.filter((todo) => todo.id === id);
+    const dones = this.state.dones.concat(done);
+    const todos = this.state.todos.filter((todo) => todo.id !== id);
     this.setState({
       todos: todos,
       dones: dones,
     });
-  }
+  };
 
   handleUndo = (id) => {
-    const todo = this.state.dones.filter(done => done.id === id);
-    const todos = this.state.todos.concat(todo)
-    const dones = this.state.dones.filter(done => done.id !== id);
+    const todo = this.state.dones.filter((done) => done.id === id);
+    const todos = this.state.todos.concat(todo);
+    const dones = this.state.dones.filter((done) => done.id !== id);
     this.setState({
       todos: todos,
       dones: dones,
     });
-  }
+  };
 
   handleChange = (event) => {
-    this.setState({newTodo: event.target.value});
-  }
+    this.setState({ newTodo: event.target.value });
+  };
 
-  render () {
+  render() {
     return (
       <div>
-        <InputTodo value={this.state.newTodo} onChange={this.handleChange}/>
+        <InputTodo value={this.state.newTodo} onChange={this.handleChange} />
         <button onClick={this.handleAdd}>Add Todo</button>
         <h1>Todo</h1>
-        <TodoList todos={this.state.todos} onDelete={this.handleDeleteTodo} onDone={this.handleDone}/>
+        <TodoList
+          todos={this.state.todos}
+          onDelete={this.handleDeleteTodo}
+          onDone={this.handleDone}
+        />
         <h1>Done</h1>
-        <DoneList dones={this.state.dones} onDelete={this.handleDeleteDone} onUndo={this.handleUndo} />
+        <DoneList
+          dones={this.state.dones}
+          onDelete={this.handleDeleteDone}
+          onUndo={this.handleUndo}
+        />
       </div>
     );
   }
@@ -118,7 +140,4 @@ class App extends React.Component {
 
 // ========================================
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));
