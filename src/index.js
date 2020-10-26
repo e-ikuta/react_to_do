@@ -5,7 +5,8 @@ function Todo(props) {
   return (
     <li>
       {props.todo.name}
-      <DeleteTodo onClick={() => props.onClick(props.todo.id)} />
+      <DeleteTodo onClick={() => props.onDelete(props.todo.id)} />
+      <DoneTodo onClick={() => props.onDone(props.todo.id)} />
     </li>
   );
 }
@@ -24,6 +25,12 @@ function DeleteTodo(props) {
   );
 }
 
+function DoneTodo(props) {
+  return (
+    <button onClick={props.onClick}>Done</button>
+  );
+}
+
 function AddTodo(props) {
   return (
     <button onClick={props.onClick}>Add todo</button>
@@ -38,7 +45,7 @@ function InputTodo(props) {
 
 function TodoList(props) {
   const todos = props.todos.map((todo) => {
-    return <Todo key={todo.id} todo={todo} onClick={props.onClick} />;
+    return <Todo key={todo.id} todo={todo} onDelete={props.onDelete} onDone={props.onDone} />;
   });
 
   return <ul>{todos}</ul>;
@@ -82,6 +89,16 @@ class App extends React.Component {
     this.setState({ todos: todos });
   }
 
+  handleDone = (id) => {
+    const done = this.state.todos.filter(todo => todo.id === id);
+    const dones = this.state.dones.concat(done)
+    const todos = this.state.todos.filter(todo => todo.id !== id);
+    this.setState({
+      todos: todos,
+      dones: dones,
+    });
+  }
+
   handleChange = (event) => {
     this.setState({newTodo: event.target.value});
   }
@@ -92,7 +109,7 @@ class App extends React.Component {
         <InputTodo value={this.state.newTodo} onChange={this.handleChange}/>
         <AddTodo onClick={this.handleAdd}/>
         <h1>Todo</h1>
-        <TodoList todos={this.state.todos} onClick={this.handleDelete}/>
+        <TodoList todos={this.state.todos} onDelete={this.handleDelete} onDone={this.handleDone}/>
         <h1>Done</h1>
         <DoneList dones={this.state.dones} />
       </div>
