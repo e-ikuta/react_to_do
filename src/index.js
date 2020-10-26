@@ -10,6 +10,14 @@ function Todo(props) {
   );
 }
 
+function Done(props) {
+  return (
+    <li>
+      {props.done.name}
+    </li>
+  );
+}
+
 function DeleteTodo(props) {
   return (
     <button onClick={props.onClick}>Delete</button>
@@ -36,6 +44,14 @@ function TodoList(props) {
   return <ul>{todos}</ul>;
 }
 
+function DoneList(props) {
+  const dones = props.dones.map((done) => {
+    return <Done key={done.id} done={done} onClick={props.onClick} />;
+  });
+
+  return <ul>{dones}</ul>;
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +59,7 @@ class App extends React.Component {
       todos: [],
       newTodo: '',
       nextId: 1,
-      dones: props.dones,
+      dones: [],
     };
   }
 
@@ -75,7 +91,10 @@ class App extends React.Component {
       <div>
         <InputTodo value={this.state.newTodo} onChange={this.handleChange}/>
         <AddTodo onClick={this.handleAdd}/>
+        <h1>Todo</h1>
         <TodoList todos={this.state.todos} onClick={this.handleDelete}/>
+        <h1>Done</h1>
+        <DoneList dones={this.state.dones} />
       </div>
     );
   }
