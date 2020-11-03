@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 function Todo(props) {
@@ -57,85 +57,64 @@ function DoneList(props) {
   return <ul>{dones}</ul>;
 }
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todos: [],
-      newTodo: '',
-      nextId: 1,
-      dones: [],
-    };
-  }
+function App() {
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [nextId, setNextId] = useState(1);
+  const [dones, setDones] = useState([]);
 
-  handleAdd = () => {
-    const todos = this.state.todos.concat([
+  const handleAdd = () => {
+    const todosAlt = todos.concat([
       {
-        id: this.state.nextId,
-        name: this.state.newTodo,
+        id: nextId,
+        name: newTodo,
       },
     ]);
-    this.setState({
-      todos: todos,
-      newTodo: '',
-      nextId: this.state.nextId + 1,
-    });
+    setTodos(todosAlt);
+    setNewTodo('');
+    setNextId(nextId + 1);
   };
 
-  handleDeleteTodo = (id) => {
-    const todos = this.state.todos.filter((todo) => todo.id !== id);
-    this.setState({ todos: todos });
+  const handleDeleteTodo = (id) => {
+    const todosAlt = todos.filter((todo) => todo.id !== id);
+    setTodos(todosAlt);
   };
 
-  handleDeleteDone = (id) => {
-    const dones = this.state.dones.filter((done) => done.id !== id);
-    this.setState({ dones: dones });
+  const handleDeleteDone = (id) => {
+    const donesAlt = dones.filter((done) => done.id !== id);
+    setDones(donesAlt);
   };
 
-  handleDone = (id) => {
-    const done = this.state.todos.filter((todo) => todo.id === id);
-    const dones = this.state.dones.concat(done);
-    const todos = this.state.todos.filter((todo) => todo.id !== id);
-    this.setState({
-      todos: todos,
-      dones: dones,
-    });
+  const handleDone = (id) => {
+    const done = todos.filter((todo) => todo.id === id);
+    const donesAlt = dones.concat(done);
+    const todosAlt = todos.filter((todo) => todo.id !== id);
+    setTodos(todosAlt);
+    setDones(donesAlt);
   };
 
-  handleUndo = (id) => {
-    const todo = this.state.dones.filter((done) => done.id === id);
-    const todos = this.state.todos.concat(todo);
-    const dones = this.state.dones.filter((done) => done.id !== id);
-    this.setState({
-      todos: todos,
-      dones: dones,
-    });
+  const handleUndo = (id) => {
+    const todo = dones.filter((done) => done.id === id);
+    const todosAlt = todos.concat(todo);
+    const donesAlt = dones.filter((done) => done.id !== id);
+    setTodos(todosAlt);
+    setDones(donesAlt);
   };
 
-  handleChange = (event) => {
-    this.setState({ newTodo: event.target.value });
+  const handleChange = (event) => {
+    setNewTodo(event.target.value);
   };
 
-  render() {
-    return (
-      <div>
-        <InputTodo value={this.state.newTodo} onChange={this.handleChange} />
-        <button onClick={this.handleAdd}>Add Todo</button>
-        <h1>Todo</h1>
-        <TodoList
-          todos={this.state.todos}
-          onDelete={this.handleDeleteTodo}
-          onDone={this.handleDone}
-        />
-        <h1>Done</h1>
-        <DoneList
-          dones={this.state.dones}
-          onDelete={this.handleDeleteDone}
-          onUndo={this.handleUndo}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <InputTodo value={newTodo} onChange={handleChange} />
+      <button onClick={handleAdd}>Add Todo</button>
+      <h1>Todo</h1>
+      <TodoList todos={todos} onDelete={handleDeleteTodo} onDone={handleDone} />
+      <h1>Done</h1>
+      <DoneList dones={dones} onDelete={handleDeleteDone} onUndo={handleUndo} />
+    </div>
+  );
 }
 
 // ========================================
