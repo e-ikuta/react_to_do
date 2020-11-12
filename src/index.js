@@ -4,21 +4,27 @@ import ReactDOM from 'react-dom';
 function Todo(props) {
   return (
     <li>
+      <DoneMark
+        id={props.todo.id}
+        isDone={props.todo.isDone}
+        onToggle={props.onToggle}
+      />
       {props.todo.name}
-      <button onClick={() => props.onDelete(props.todo.id)}>Delete</button>
-      <button onClick={() => props.onDone(props.todo.id)}>Done</button>
+      <Delete id={props.todo.id} onDelete={props.onDelete} />
     </li>
   );
 }
 
-function Done(props) {
+function DoneMark(props) {
   return (
-    <li>
-      {props.done.name}
-      <button onClick={() => props.onDelete(props.done.id)}>Delete</button>
-      <button onClick={() => props.onUndo(props.done.id)}>Undo</button>
-    </li>
+    <button onClick={() => props.onToggle(props.id)}>
+      {props.isDone ? 'DONE' : 'TODO'}
+    </button>
   );
+}
+
+function Delete(props) {
+  return <button onClick={() => props.onDelete(props.id)}>DELETE</button>;
 }
 
 function InputTodo(props) {
@@ -33,8 +39,8 @@ function TodoList(props) {
       <Todo
         key={todo.id}
         todo={todo}
+        onToggle={props.onToggle}
         onDelete={props.onDelete}
-        onDone={props.onDone}
       />
     );
   });
@@ -42,63 +48,46 @@ function TodoList(props) {
   return <ul>{todos}</ul>;
 }
 
-function DoneList(props) {
-  const dones = props.dones.map((done) => {
-    return (
-      <Done
-        key={done.id}
-        done={done}
-        onDelete={props.onDelete}
-        onUndo={props.onUndo}
-      />
-    );
-  });
-
-  return <ul>{dones}</ul>;
+function AddTodo(props) {
+  return (
+    <div>
+      <InputTodo value={props.newTodo} onChange={props.onChange} />
+      <button onClick={props.onAdd}>ADD</button>
+    </div>
+  );
 }
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
   const [nextId, setNextId] = useState(1);
-  const [dones, setDones] = useState([]);
 
   const handleAdd = () => {
-    const todosAlt = todos.concat([
+    const addedTodos = todos.concat([
       {
         id: nextId,
         name: newTodo,
+        isDone: false,
       },
     ]);
-    setTodos(todosAlt);
+    setTodos(addedTodos);
     setNewTodo('');
     setNextId(nextId + 1);
   };
 
-  const handleDeleteTodo = (id) => {
-    const todosAlt = todos.filter((todo) => todo.id !== id);
-    setTodos(todosAlt);
+  const handleDelete = (id) => {
+    const remainingTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(remainingTodos);
   };
 
-  const handleDeleteDone = (id) => {
-    const donesAlt = dones.filter((done) => done.id !== id);
-    setDones(donesAlt);
-  };
-
-  const handleDone = (id) => {
-    const done = todos.filter((todo) => todo.id === id);
-    const donesAlt = dones.concat(done);
-    const todosAlt = todos.filter((todo) => todo.id !== id);
-    setTodos(todosAlt);
-    setDones(donesAlt);
-  };
-
-  const handleUndo = (id) => {
-    const todo = dones.filter((done) => done.id === id);
-    const todosAlt = todos.concat(todo);
-    const donesAlt = dones.filter((done) => done.id !== id);
-    setTodos(todosAlt);
-    setDones(donesAlt);
+  const handleToggle = (id) => {
+    const toggledTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isDone = !todo.isDone;
+      }
+      return todo;
+    });
+    setTodos(toggledTodos);
   };
 
   const handleChange = (event) => {
@@ -107,12 +96,9 @@ function App() {
 
   return (
     <div>
-      <InputTodo value={newTodo} onChange={handleChange} />
-      <button onClick={handleAdd}>Add Todo</button>
-      <h1>Todo</h1>
-      <TodoList todos={todos} onDelete={handleDeleteTodo} onDone={handleDone} />
-      <h1>Done</h1>
-      <DoneList dones={dones} onDelete={handleDeleteDone} onUndo={handleUndo} />
+      <h1>MY TODO</h1>
+      <TodoList todos={todos} onDelete={handleDelete} onToggle={handleToggle} />
+      <AddTodo newTodo={newTodo} onChange={handleChange} onAdd={handleAdd} />
     </div>
   );
 }
