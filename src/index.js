@@ -63,13 +63,14 @@ const App = () => {
   const [nextId, setNextId] = useState(1);
 
   const handleAdd = () => {
-    const addedTodos = todos.concat([
+    const addedTodos = [
+      ...todos,
       {
         id: nextId,
         name: newTodo,
         isDone: false,
       },
-    ]);
+    ];
     setTodos(addedTodos);
     setNewTodo('');
     setNextId(nextId + 1);
