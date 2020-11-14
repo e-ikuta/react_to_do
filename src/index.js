@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { todoReducer } from './todo-reducer.js';
 
@@ -8,45 +8,42 @@ const Todo = (props) => {
       <DoneMark
         id={props.todo.id}
         isDone={props.todo.isDone}
-        dispatch={props.dispatch}
+        handleToggle={props.handleToggle}
       />
       {props.todo.name}
-      <Delete id={props.todo.id} dispatch={props.dispatch} />
+      <Delete id={props.todo.id} handleDelete={props.handleDelete} />
     </li>
   );
 };
 
 const DoneMark = (props) => {
   return (
-    <button onClick={() => props.dispatch({ type: 'toggle', id: props.id })}>
+    <button onClick={() => props.handleToggle(props.id)}>
       {props.isDone ? 'DONE' : 'TODO'}
     </button>
   );
 };
 
 const Delete = (props) => {
-  return (
-    <button onClick={() => props.dispatch({ type: 'delete', id: props.id })}>
-      DELETE
-    </button>
-  );
+  return <button onClick={() => props.handleDelete(props.id)}>DELETE</button>;
 };
 
 const InputTodo = (props) => {
   return (
-    <input
-      type="text"
-      value={props.value}
-      onChange={() =>
-        props.dispatch({ type: 'input', value: event.target.value })
-      }
-    ></input>
+    <input type="text" value={props.value} onChange={props.handleInput}></input>
   );
 };
 
 const TodoList = (props) => {
   const todos = props.todos.map((todo) => {
-    return <Todo key={todo.id} todo={todo} dispatch={props.dispatch} />;
+    return (
+      <Todo
+        key={todo.id}
+        todo={todo}
+        handleToggle={props.handleToggle}
+        handleDelete={props.handleDelete}
+      />
+    );
   });
 
   return <ul>{todos}</ul>;
@@ -55,8 +52,8 @@ const TodoList = (props) => {
 const AddTodo = (props) => {
   return (
     <div>
-      <InputTodo value={props.newTodo} dispatch={props.dispatch} />
-      <button onClick={() => props.dispatch({ type: 'add' })}>ADD</button>
+      <InputTodo value={props.newTodo} handleInput={props.handleInput} />
+      <button onClick={props.handleAdd}>ADD</button>
     </div>
   );
 };
@@ -70,11 +67,32 @@ const App = () => {
 
   const [todoState, todoDispatch] = useReducer(todoReducer, initialTodoState);
 
+  const handleDelete = useCallback((id) => {
+    todoDispatch({ type: 'delete', id: id });
+  }, []);
+  const handleToggle = useCallback((id) => {
+    todoDispatch({ type: 'toggle', id: id });
+  }, []);
+  const handleAdd = useCallback(() => {
+    todoDispatch({ type: 'add' });
+  }, []);
+  const handleInput = useCallback((e) => {
+    todoDispatch({ type: 'input', value: e.target.value });
+  }, []);
+
   return (
     <div>
       <h1>MY TODO</h1>
-      <TodoList todos={todoState.todos} dispatch={todoDispatch} />
-      <AddTodo newTodo={todoState.newTodo} dispatch={todoDispatch} />
+      <TodoList
+        todos={todoState.todos}
+        handleDelete={handleDelete}
+        handleToggle={handleToggle}
+      />
+      <AddTodo
+        newTodo={todoState.newTodo}
+        handleAdd={handleAdd}
+        handleInput={handleInput}
+      />
     </div>
   );
 };
