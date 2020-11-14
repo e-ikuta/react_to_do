@@ -58,37 +58,48 @@ const AddTodo = (props) => {
 };
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
+  const [todoState, setTodoState] = useState({
+    counter: 1,
+    todos: [],
+  });
   const [newTodo, setNewTodo] = useState('');
-  const [nextId, setNextId] = useState(1);
 
   const handleAdd = () => {
-    const addedTodos = [
-      ...todos,
-      {
-        id: nextId,
-        name: newTodo,
-        isDone: false,
-      },
-    ];
-    setTodos(addedTodos);
+    const updatedTodoState = {
+      counter: todoState.counter + 1,
+      todos: [
+        ...todoState.todos,
+        {
+          id: todoState.counter,
+          name: newTodo,
+          isDone: false,
+        },
+      ],
+    };
+    setTodoState(updatedTodoState);
     setNewTodo('');
-    setNextId(nextId + 1);
   };
 
   const handleDelete = (id) => {
-    const remainingTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(remainingTodos);
+    const updatedTodoState = {
+      counter: todoState.counter,
+      todos: todoState.todos.filter((todo) => todo.id !== id),
+    };
+    setTodoState(updatedTodoState);
   };
 
   const handleToggle = (id) => {
-    const toggledTodos = todos.map((todo) => {
+    const updatedTodos = todoState.todos.map((todo) => {
       if (todo.id === id) {
         todo.isDone = !todo.isDone;
       }
       return todo;
     });
-    setTodos(toggledTodos);
+    const updatedTodoState = {
+      counter: todoState.counter,
+      todos: updatedTodos,
+    };
+    setTodoState(updatedTodoState);
   };
 
   const handleChange = (event) => {
@@ -98,7 +109,11 @@ const App = () => {
   return (
     <div>
       <h1>MY TODO</h1>
-      <TodoList todos={todos} onDelete={handleDelete} onToggle={handleToggle} />
+      <TodoList
+        todos={todoState.todos}
+        onDelete={handleDelete}
+        onToggle={handleToggle}
+      />
       <AddTodo newTodo={newTodo} onChange={handleChange} onAdd={handleAdd} />
     </div>
   );
