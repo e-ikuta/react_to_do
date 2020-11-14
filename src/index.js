@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-function Todo(props) {
+const Todo = (props) => {
   return (
     <li>
       <DoneMark
@@ -13,27 +13,27 @@ function Todo(props) {
       <Delete id={props.todo.id} onDelete={props.onDelete} />
     </li>
   );
-}
+};
 
-function DoneMark(props) {
+const DoneMark = (props) => {
   return (
     <button onClick={() => props.onToggle(props.id)}>
       {props.isDone ? 'DONE' : 'TODO'}
     </button>
   );
-}
+};
 
-function Delete(props) {
+const Delete = (props) => {
   return <button onClick={() => props.onDelete(props.id)}>DELETE</button>;
-}
+};
 
-function InputTodo(props) {
+const InputTodo = (props) => {
   return (
     <input type="text" value={props.value} onChange={props.onChange}></input>
   );
-}
+};
 
-function TodoList(props) {
+const TodoList = (props) => {
   const todos = props.todos.map((todo) => {
     return (
       <Todo
@@ -46,18 +46,18 @@ function TodoList(props) {
   });
 
   return <ul>{todos}</ul>;
-}
+};
 
-function AddTodo(props) {
+const AddTodo = (props) => {
   return (
     <div>
       <InputTodo value={props.newTodo} onChange={props.onChange} />
       <button onClick={props.onAdd}>ADD</button>
     </div>
   );
-}
+};
 
-function App() {
+const App = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
   const [nextId, setNextId] = useState(1);
@@ -101,7 +101,7 @@ function App() {
       <AddTodo newTodo={newTodo} onChange={handleChange} onAdd={handleAdd} />
     </div>
   );
-}
+};
 
 // ========================================
 
