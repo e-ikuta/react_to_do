@@ -3,11 +3,11 @@ export const todoReducer = (state, action) => {
     case 'add': {
       return {
         newTodo: '',
-        counter: state.counter + 1,
+        nextId: state.nextId + 1,
         todos: [
           ...state.todos,
           {
-            id: state.counter,
+            id: state.nextId,
             name: state.newTodo,
             isDone: false,
           },
@@ -17,7 +17,7 @@ export const todoReducer = (state, action) => {
     case 'delete': {
       return {
         newTodo: state.newTodo,
-        counter: state.counter,
+        nextId: state.nextId,
         todos: state.todos.filter((todo) => todo.id !== action.id),
       };
     }
@@ -30,14 +30,14 @@ export const todoReducer = (state, action) => {
       });
       return {
         newTodo: state.newTodo,
-        counter: state.counter,
+        nextId: state.nextId,
         todos: todos,
       };
     }
     case 'input': {
       return {
         newTodo: action.value,
-        counter: state.counter,
+        nextId: state.nextId,
         todos: state.todos,
       };
     }

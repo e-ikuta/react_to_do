@@ -61,7 +61,7 @@ const AddTodo = (props) => {
 const App = () => {
   const initialTodoState = {
     newTodo: '',
-    counter: 1,
+    nextId: 1,
     todos: [],
   };
 
