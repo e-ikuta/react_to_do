@@ -11,6 +11,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "lint": "eslint './src/*.{js,ts,tsx}' --quiet --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "start": "webpack serve",
@@ -37,6 +38,8 @@
   "devDependencies": {
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
     "clean-webpack-plugin": "^3.0.0",
     "eslint": "^7.12.0",
     "eslint-config-prettier": "^6.14.0",
