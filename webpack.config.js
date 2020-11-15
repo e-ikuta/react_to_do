@@ -8,14 +8,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(src, 'index.js'),
+  entry: path.resolve(src, 'index.tsx'),
   devtool: 'inline-source-map',
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
+        test: /.tsx?$/,
+        exclude: '/node-modules/',
+        use: 'ts-loader',
       },
       {
         test: /.html$/,
@@ -24,7 +24,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.ts', '.tsx'],
   },
   output: {
     filename: 'bundle.js',

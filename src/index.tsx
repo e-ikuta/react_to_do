@@ -1,8 +1,15 @@
-import React, { useReducer, useCallback } from 'react';
-import ReactDOM from 'react-dom';
-import { todoReducer } from './todo-reducer';
+import * as React from 'react';
+import { useReducer, useCallback } from 'react';
+import * as ReactDOM from 'react-dom';
+import { TodoState, Todo, todoReducer } from './todo-reducer';
 
-const Todo = (props) => {
+type TodoProps = {
+  todo: Todo;
+  handleToggle: HandleToggle;
+  handleDelete: HandleDelete;
+};
+
+const Todo: React.FC<TodoProps> = (props) => {
   return (
     <li>
       <DoneMark
@@ -16,7 +23,13 @@ const Todo = (props) => {
   );
 };
 
-const DoneMark = (props) => {
+type DoneMarkProps = {
+  id: number;
+  isDone: boolean;
+  handleToggle: HandleToggle;
+};
+
+const DoneMark: React.FC<DoneMarkProps> = (props) => {
   return (
     <button onClick={() => props.handleToggle(props.id)}>
       {props.isDone ? 'DONE' : 'TODO'}
@@ -24,17 +37,33 @@ const DoneMark = (props) => {
   );
 };
 
-const Delete = (props) => {
+type DeleteProps = {
+  id: number;
+  handleDelete: HandleDelete;
+};
+
+const Delete: React.FC<DeleteProps> = (props) => {
   return <button onClick={() => props.handleDelete(props.id)}>DELETE</button>;
 };
 
-const InputTodo = (props) => {
+type InputTodoProps = {
+  value: string;
+  handleInput: HandleInput;
+};
+
+const InputTodo: React.FC<InputTodoProps> = (props) => {
   return (
     <input type="text" value={props.value} onChange={props.handleInput}></input>
   );
 };
 
-const TodoList = (props) => {
+type TodoListProps = {
+  todos: Todo[];
+  handleToggle: HandleToggle;
+  handleDelete: HandleDelete;
+};
+
+const TodoList: React.FC<TodoListProps> = (props) => {
   const todos = props.todos.map((todo) => {
     return (
       <Todo
@@ -49,7 +78,13 @@ const TodoList = (props) => {
   return <ul>{todos}</ul>;
 };
 
-const AddTodo = (props) => {
+type AddTodoProps = {
+  newTodo: string;
+  handleInput: HandleInput;
+  handleAdd: HandleAdd;
+};
+
+const AddTodo: React.FC<AddTodoProps> = (props) => {
   return (
     <div>
       <InputTodo value={props.newTodo} handleInput={props.handleInput} />
@@ -58,8 +93,13 @@ const AddTodo = (props) => {
   );
 };
 
+type HandleDelete = (id: number) => void;
+type HandleToggle = (id: number) => void;
+type HandleAdd = (e: React.MouseEvent<HTMLButtonElement>) => void;
+type HandleInput = (e: React.ChangeEvent<HTMLInputElement>) => void;
+
 const App = () => {
-  const initialTodoState = {
+  const initialTodoState: TodoState = {
     newTodo: '',
     nextId: 1,
     todos: [],
@@ -67,16 +107,16 @@ const App = () => {
 
   const [todoState, todoDispatch] = useReducer(todoReducer, initialTodoState);
 
-  const handleDelete = useCallback((id) => {
+  const handleDelete: HandleDelete = useCallback((id) => {
     todoDispatch({ type: 'delete', id: id });
   }, []);
-  const handleToggle = useCallback((id) => {
+  const handleToggle: HandleToggle = useCallback((id) => {
     todoDispatch({ type: 'toggle', id: id });
   }, []);
-  const handleAdd = useCallback(() => {
+  const handleAdd: HandleAdd = useCallback(() => {
     todoDispatch({ type: 'add' });
   }, []);
-  const handleInput = useCallback((e) => {
+  const handleInput: HandleInput = useCallback((e) => {
     todoDispatch({ type: 'input', value: e.target.value });
   }, []);
 

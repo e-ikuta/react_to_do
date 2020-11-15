@@ -1,4 +1,24 @@
-export const todoReducer = (state, action) => {
+export { TodoState, Todo, todoReducer };
+
+type TodoState = {
+  newTodo: string;
+  nextId: number;
+  todos: Todo[];
+};
+
+type Todo = {
+  id: number;
+  name: string;
+  isDone: boolean;
+};
+
+type Action = {
+  type: string;
+  id?: number;
+  value?: string;
+};
+
+const todoReducer = (state: TodoState, action: Action) => {
   switch (action.type) {
     case 'add': {
       return {
