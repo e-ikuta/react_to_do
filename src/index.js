@@ -1,6 +1,6 @@
 import React, { useReducer, useCallback } from 'react';
 import ReactDOM from 'react-dom';
-import { todoReducer } from './todo-reducer.js';
+import { todoReducer } from './todo-reducer';
 
 const Todo = (props) => {
   return (
