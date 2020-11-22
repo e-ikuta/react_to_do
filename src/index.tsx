@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useReducer, useCallback } from 'react';
 import * as ReactDOM from 'react-dom';
-import { TodoState, Todo, todoReducer } from './todo-reducer';
+import { TodoState, Todo, todoReducer } from './todoReducer';
 
 type TodoProps = {
   todo: Todo;
