@@ -14,30 +14,30 @@ type Todo = {
 
 type AddAction = {
   type: 'add';
-}
+};
 
 type DeleteAction = {
   type: 'delete';
   payload: {
     id: number;
-  }
-}
+  };
+};
 
 type ToggleAction = {
   type: 'toggle';
   payload: {
     id: number;
-  }
-}
+  };
+};
 
 type InputAction = {
   type: 'input';
   payload: {
     value: string;
-  }
-}
+  };
+};
 
-type Action = AddAction | DeleteAction | ToggleAction | InputAction
+type Action = AddAction | DeleteAction | ToggleAction | InputAction;
 
 const todoReducer = (state: TodoState, action: Action) => {
   switch (action.type) {

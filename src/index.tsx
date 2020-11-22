@@ -108,16 +108,16 @@ const App = () => {
   const [todoState, todoDispatch] = useReducer(todoReducer, initialTodoState);
 
   const handleDelete: handleDelete = useCallback((id) => {
-    todoDispatch({ type: 'delete', payload: { id: id }});
+    todoDispatch({ type: 'delete', payload: { id: id } });
   }, []);
   const handleToggle: handleToggle = useCallback((id) => {
-    todoDispatch({ type: 'toggle', payload: { id: id }});
+    todoDispatch({ type: 'toggle', payload: { id: id } });
   }, []);
   const handleAdd: handleAdd = useCallback(() => {
     todoDispatch({ type: 'add' });
   }, []);
   const handleInput: handleInput = useCallback((e) => {
-    todoDispatch({ type: 'input', payload: { value: e.target.value }});
+    todoDispatch({ type: 'input', payload: { value: e.target.value } });
   }, []);
 
   return (
