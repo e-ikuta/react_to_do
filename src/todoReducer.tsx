@@ -12,11 +12,32 @@ type Todo = {
   isDone: boolean;
 };
 
-type Action = {
-  type: string;
-  id?: number;
-  value?: string;
+type AddAction = {
+  type: 'add';
 };
+
+type DeleteAction = {
+  type: 'delete';
+  payload: {
+    id: number;
+  };
+};
+
+type ToggleAction = {
+  type: 'toggle';
+  payload: {
+    id: number;
+  };
+};
+
+type InputAction = {
+  type: 'input';
+  payload: {
+    value: string;
+  };
+};
+
+type Action = AddAction | DeleteAction | ToggleAction | InputAction;
 
 const todoReducer = (state: TodoState, action: Action) => {
   switch (action.type) {
@@ -38,12 +59,12 @@ const todoReducer = (state: TodoState, action: Action) => {
       return {
         newTodo: state.newTodo,
         nextId: state.nextId,
-        todos: state.todos.filter((todo) => todo.id !== action.id),
+        todos: state.todos.filter((todo) => todo.id !== action.payload.id),
       };
     }
     case 'toggle': {
       const todos = state.todos.map((todo) => {
-        if (todo.id === action.id) {
+        if (todo.id === action.payload.id) {
           todo.isDone = !todo.isDone;
         }
         return todo;
@@ -56,7 +77,7 @@ const todoReducer = (state: TodoState, action: Action) => {
     }
     case 'input': {
       return {
-        newTodo: action.value,
+        newTodo: action.payload.value,
         nextId: state.nextId,
         todos: state.todos,
       };
