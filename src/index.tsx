@@ -2,12 +2,18 @@ import * as React from 'react';
 import { useReducer, useCallback } from 'react';
 import * as ReactDOM from 'react-dom';
 import { TodoState, Todo, todoReducer } from './todoReducer';
+import styled from 'styled-components';
+import classnames from 'classnames';
 
 type TodoProps = {
   todo: Todo;
   handleToggle: handleToggle;
   handleDelete: handleDelete;
 };
+
+const Text = styled.span`
+  color: #3b8c69;
+`;
 
 const Todo: React.FC<TodoProps> = (props) => {
   return (
@@ -17,7 +23,7 @@ const Todo: React.FC<TodoProps> = (props) => {
         isDone={props.todo.isDone}
         handleToggle={props.handleToggle}
       />
-      {props.todo.name}
+      <Text className={classnames({done: props.todo.isDone})}>{props.todo.name}</Text>
       <Delete id={props.todo.id} handleDelete={props.handleDelete} />
     </li>
   );
