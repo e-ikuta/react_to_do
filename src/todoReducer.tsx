@@ -1,5 +1,10 @@
 export { TodoState, Todo, todoReducer };
 
+const ADD_ACTION_TYPE = 'add' as const;
+const DELETE_ACTION_TYPE = 'delete' as const;
+const TOGGLE_ACTION_TYPE = 'toggle' as const;
+const INPUT_ACTION_TYPE = 'input' as const;
+
 type TodoState = {
   newTodo: string;
   nextId: number;
@@ -12,30 +17,43 @@ type Todo = {
   isDone: boolean;
 };
 
-type AddAction = {
-  type: 'add';
-};
-
-type DeleteAction = {
-  type: 'delete';
-  payload: {
-    id: number;
+export const addAction = () => {
+  return {
+    type: ADD_ACTION_TYPE,
   };
 };
 
-type ToggleAction = {
-  type: 'toggle';
-  payload: {
-    id: number;
+export const deleteAction = (id: number) => {
+  return {
+    type: DELETE_ACTION_TYPE,
+    payload: {
+      id: id,
+    },
   };
 };
 
-type InputAction = {
-  type: 'input';
-  payload: {
-    value: string;
+export const toggleAction = (id: number) => {
+  return {
+    type: TOGGLE_ACTION_TYPE,
+    payload: {
+      id: id,
+    },
   };
 };
+
+export const inputAction = (value: string) => {
+  return {
+    type: INPUT_ACTION_TYPE,
+    payload: {
+      value: value,
+    },
+  };
+};
+
+type AddAction = ReturnType<typeof addAction>;
+type DeleteAction = ReturnType<typeof deleteAction>;
+type ToggleAction = ReturnType<typeof toggleAction>;
+type InputAction = ReturnType<typeof inputAction>;
 
 type Action = AddAction | DeleteAction | ToggleAction | InputAction;
 

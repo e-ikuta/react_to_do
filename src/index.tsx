@@ -1,7 +1,15 @@
 import * as React from 'react';
 import { useReducer, useCallback } from 'react';
 import * as ReactDOM from 'react-dom';
-import { TodoState, Todo, todoReducer } from './todoReducer';
+import {
+  TodoState,
+  Todo,
+  todoReducer,
+  deleteAction,
+  addAction,
+  toggleAction,
+  inputAction,
+} from './todoReducer';
 import styled from 'styled-components';
 import classnames from 'classnames';
 
@@ -23,7 +31,9 @@ const Todo: React.FC<TodoProps> = (props) => {
         isDone={props.todo.isDone}
         handleToggle={props.handleToggle}
       />
-      <Text className={classnames({done: props.todo.isDone})}>{props.todo.name}</Text>
+      <Text className={classnames({ done: props.todo.isDone })}>
+        {props.todo.name}
+      </Text>
       <Delete id={props.todo.id} handleDelete={props.handleDelete} />
     </li>
   );
@@ -114,16 +124,16 @@ const App = () => {
   const [todoState, todoDispatch] = useReducer(todoReducer, initialTodoState);
 
   const handleDelete: handleDelete = useCallback((id) => {
-    todoDispatch({ type: 'delete', payload: { id: id } });
+    todoDispatch(deleteAction(id));
   }, []);
   const handleToggle: handleToggle = useCallback((id) => {
-    todoDispatch({ type: 'toggle', payload: { id: id } });
+    todoDispatch(toggleAction(id));
   }, []);
   const handleAdd: handleAdd = useCallback(() => {
-    todoDispatch({ type: 'add' });
+    todoDispatch(addAction());
   }, []);
   const handleInput: handleInput = useCallback((e) => {
-    todoDispatch({ type: 'input', payload: { value: e.target.value } });
+    todoDispatch(inputAction(e.target.value));
   }, []);
 
   return (
