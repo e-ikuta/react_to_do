@@ -50,6 +50,21 @@ export const inputAction = (value: string) => {
   };
 };
 
+export const addTask = (state: TodoState) => {
+  return {
+    newTodo: '',
+    nextId: state.nextId + 1,
+    todos: [
+      ...state.todos,
+      {
+        id: state.nextId,
+        name: state.newTodo,
+        isDone: false,
+      },
+    ],
+  };
+}
+
 type AddAction = ReturnType<typeof addAction>;
 type DeleteAction = ReturnType<typeof deleteAction>;
 type ToggleAction = ReturnType<typeof toggleAction>;
@@ -60,18 +75,7 @@ type Action = AddAction | DeleteAction | ToggleAction | InputAction;
 const todoReducer = (state: TodoState, action: Action) => {
   switch (action.type) {
     case 'add': {
-      return {
-        newTodo: '',
-        nextId: state.nextId + 1,
-        todos: [
-          ...state.todos,
-          {
-            id: state.nextId,
-            name: state.newTodo,
-            isDone: false,
-          },
-        ],
-      };
+      return addTask(state);
     }
     case 'delete': {
       return {
